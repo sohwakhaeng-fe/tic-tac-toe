@@ -13,6 +13,9 @@ function TicTacToe() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [isX, setIsX] = useState(true);
 
+  let nextPlayer;
+  nextPlayer = isX ? "Next player: X" : "Next player: O";
+
   const handleSquareClick = (i) => {
     if (squares[i]) {
       return;
@@ -26,8 +29,10 @@ function TicTacToe() {
     setSquares(nextSqaure);
     setIsX(!isX);
   };
+
   return (
     <>
+      <p className="next-player">{nextPlayer}</p>
       <div className="board-row">
         <Square value={squares[0]} onSquareClick={() => handleSquareClick(0)} />
         <Square value={squares[1]} onSquareClick={() => handleSquareClick(1)} />
