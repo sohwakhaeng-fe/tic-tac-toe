@@ -46,7 +46,7 @@ function TicTacToe() {
   }
 
   const handleSquareClick = (i) => {
-    if (squares[i]) {
+    if (squares[i] || isWinner(squares)) {
       return;
     }
     const nextSqaure = squares.slice();
