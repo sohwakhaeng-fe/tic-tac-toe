@@ -1,0 +1,30 @@
+{
+  "name": "tic-tac-toe",
+  "description": "소소하지만 확실한 행복의 첫번째 습작 틱택토 프로젝트",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sohwakhaeng-fe/tic-tac-toe.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sohwakhaeng-fe/tic-tac-toe/issues"
+  },
+  "homepage": "https://github.com/sohwakhaeng-fe/tic-tac-toe#readme",
+  "scripts": {
+    "dev": "vite"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^4.9.5"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.35",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react": "^3.1.0",
+    "vite": "^4.2.1"
+  }
+}
