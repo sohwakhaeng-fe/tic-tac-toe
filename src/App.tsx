@@ -11,7 +11,7 @@ import {
   isHorizontalMatch,
   isVerticalMatch,
   isDiagonalMatch,
-} from "./constants/validate";
+} from "./utils/validate";
 
 export const App = () => {
   const [board, setBoard] =
