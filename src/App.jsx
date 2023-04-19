@@ -1,43 +1,14 @@
 import { useState } from "react";
+import judgeWinner from "./JudgeWinner";
+import Square from "./Square";
 import "./App.css";
-
-const Square = ({ value, onSquareClick }) => {
-  return (
-    <button className="square" onClick={onSquareClick}>
-      {value}
-    </button>
-  );
-};
-
-function isWinner(squares) {
-  const winnerFomula = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-
-  for (let i = 0; i < winnerFomula.length; i++) {
-    const [a, b, c] = winnerFomula[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
-    }
-  }
-  return null;
-}
 
 function TicTacToe() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [isX, setIsX] = useState(true);
 
   let playerStatus;
-  let winner = isWinner(squares);
+  let winner = judgeWinner(squares);
 
   if (winner) {
     playerStatus = "Winner is " + winner;
@@ -46,10 +17,12 @@ function TicTacToe() {
   }
 
   const handleSquareClick = (i) => {
-    if (squares[i] || isWinner(squares)) {
+    if (squares[i] || judgeWinner(squares)) {
       return;
     }
-    const nextSqaure = squares.slice();
+
+    const nextSqaure = [...squares];
+
     if (isX) {
       nextSqaure[i] = "X";
     } else {
