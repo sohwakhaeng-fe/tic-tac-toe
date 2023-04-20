@@ -1,46 +1,10 @@
 import styled from 'styled-components';
-import Square from './components/Square';
-import { useState } from 'react';
+import Board from './components/Board';
 function App() {
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [isNext, setIsNext] = useState(false);
-  const [isWin, setIsWin] = useState("");
-  const handleClick = (index) => {
-    if (squares[index] !== null || isWin) return
-    const newSquares = [...squares];
-    newSquares[index] = isNext ? "O" : "X";
-    setIsNext(!isNext);
-    setSquares(newSquares);
-    judgeWinner(newSquares);
-  }
-
-  const judgeWinner = (squares) => {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
-    ]
-    lines.map(line => {
-      const [a, b, c] = line;
-      if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-        setIsWin(squares[a]);
-      }
-    })
-    return;
-  }
+  
   return (
     <AppBlock>
-      <TextBlock>
-        {!isWin ? "Next Player" : "Winner player"} : {!isWin ? (!isNext ? "X" : "O") : (isWin)}
-      </TextBlock>
-      <SquareSection>
-        {squares.map((square, index) => <Square index={index} value={square} key={index} handleClick={handleClick}/>)}
-      </SquareSection>
+      <Board />
     </AppBlock>
   )
 }
@@ -49,14 +13,5 @@ const AppBlock = styled.div`
   
 `
 
-const TextBlock = styled.div`
-  
-`
 
-const SquareSection = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 300px;
-  height: 300px;
-`
 export default App

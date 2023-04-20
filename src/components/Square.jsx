@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-const Square = ({ index, value, handleClick }) => {
+const Square = ({ row, col, value, handleClick }) => {
     
     return (
-        <SquareBlock onClick={() => handleClick(index)}>{value}</SquareBlock>
+        <SquareBlock onClick={() => handleClick(row, col)}>{value}</SquareBlock>
     )
 }
 
