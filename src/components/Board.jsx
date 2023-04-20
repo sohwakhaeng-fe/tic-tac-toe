@@ -26,7 +26,7 @@ const Board = () => {
 
         setIsNext(!isNext);
         setHistory(newHistory);
-        judgeWinner(newSquares);
+        judgeWinner(newSquares)
     }
 
     const move = (index) => {
@@ -58,7 +58,7 @@ const Board = () => {
         <Block >
             <div>
                 <TextBlock>
-                    {!isWin ? "Next Player" : "Winner player"} : {!isWin ? (!isNext ? "X" : "O") : (isWin)}
+                    {!isWin ? "Next Player!" : "Winner player"} : {!isWin ? (!isNext ? "X" : "O") : (isWin)}
                 </TextBlock>
                 <SquareSection>
                     {history[currentStep].map((square, row) => square.map((value, col) =><Square key={row+col} value={value} row={row} col={col} handleClick={handleClick}/>))}
