@@ -10,12 +10,16 @@ const Board = () => {
     const [isWin, setIsWin] = useState("");
     const handleClick = (clickedRow, clickedCol) => {
         if(history.length === 10) return;
-        
-        setCurrentStep(index => ++index);
-        
+
         const currentSquares = [...history[currentStep]]; 
 
         if (currentSquares[clickedRow][clickedCol] !== null || isWin) return 
+        
+        setCurrentStep(index => ++index);
+        
+        // const currentSquares = [...history[currentStep]]; 
+
+        // if (currentSquares[clickedRow][clickedCol] !== null || isWin) return 
     
 
         setPositions(prev => {
@@ -39,8 +43,12 @@ const Board = () => {
         const newHistory = [...history.slice(0, currentStep + 1), newSquares]
 
         setHistory(newHistory);
-        judgeWinner(newSquares)
+        judgeWinner(newSquares);
  
+    }
+
+    function flatten(arr) {
+        return arr.reduce((acc, val) => acc.concat(val), []);
     }
 
     const move = (index) => {
@@ -61,31 +69,29 @@ const Board = () => {
     }
 
     const judgeWinner = (squares) => {
-        // const = ㄱ
-        
-        // // 변수 3개 , 가로 [] 세로 []대각선[]
-        // squares.map((square, index1) => {
-        //     // 가로 원소 1개    
-        //     square.map((item, index2) => {
-        //         // 세로 원소 1개
-        //         // 대각선
-        //         세로 변수.push(square[index1][index2])
-        //     })
-        //     // 한 행 순회 완료
-        //     // 한 행의 원소 3개가 모두 일치하는 가
-        // })
-
-        // // 새로 변수, 대각선 변수
-        // // 세로 변수 3개
-        // 세로 변수.map( => 원소 3개가 서로 일치하는 지 확인)
-
-        lines.map(line => {
-        const [a, b, c] = line;
-        if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-            setIsWin(squares[a]);
+        const lines = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+        const flattenedSquares = flatten(squares);
+        for (let i = 0; i < lines.length; i++) {
+            const [a, b, c] = lines[i];
+            if (
+            flattenedSquares[a] &&
+            flattenedSquares[a] === flattenedSquares[b] &&
+            flattenedSquares[a] === flattenedSquares[c]
+            ) {
+            
+                setIsWin(flattenedSquares[a])
+            }
         }
-        })
-        return;
+        return null;
     }
 
     return (
