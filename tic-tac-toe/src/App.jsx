@@ -7,9 +7,10 @@ function App() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   // const judgeX = squares % 2 === 0;
   const [judgeX, setJudgeX] = useState(true);
+  const winner = judgeWinner(squares);
 
   function handleBoardClick(i) {
-    if (squares[i]) return;
+    if (squares[i] || winner) return;
 
     const nextSquares = [...squares];
     judgeX ? (nextSquares[i] = "X") : (nextSquares[i] = "O");
@@ -18,15 +19,14 @@ function App() {
     setSquares(nextSquares);
   }
 
-  const winner = judgeWinner(squares);
 
   return (
     <>
-        {winner === "X"
-          ? "winner : X"
-          : judgeX
-          ? "Next Player : X"
-          : "Next Player : O"}
+      {winner
+        ? `winner : ${winner}`
+        : judgeX
+        ? "Next Player : X"
+        : "Next Player : O"}
 
       <div className="board">
         <Square handleClick={() => handleBoardClick(0)} value={squares[0]} />
