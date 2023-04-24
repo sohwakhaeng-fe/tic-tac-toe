@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BoardValueType, PlayerType } from "./types";
 import Board from "./components/Board";
+import styled from "styled-components";
 import {
   PLAYERS,
   NUM_PLAYERS,
@@ -14,23 +15,36 @@ import {
 } from "./utils/validate";
 
 export const App = () => {
-  const [board, setBoard] =
-    useState<Array<Array<BoardValueType>>>(BOARD_INIT_VALUE);
+  const [history, setHistory] = useState<BoardValueType[][][]>([
+    BOARD_INIT_VALUE,
+  ]);
 
   const [currentStep, setCurrentStep] = useState(0);
   const [winner, setWinner] = useState<PlayerType | null>(null);
+  const [isAsc, setIsAsc] = useState(true);
 
-  const [clicked, setClicked] = useState({ row: -1, col: -1 });
+  const judgeWinner = (
+    board: BoardValueType[][],
+    clickedRow: number,
+    clickedCol: number
+  ) => {
+    const isWin = isVaildLine(board, clickedRow, clickedCol);
 
-  const isWin = () => {
-    const { row, col } = clicked;
+    if (isWin) return setWinner(PLAYERS[(currentStep - 1) % NUM_PLAYERS]);
+  };
 
-    const verticalArr = board.map((row) => row[col]);
+  const isVaildLine = (
+    board: BoardValueType[][],
+    clickedRow: number,
+    clickedCol: number
+  ) => {
+    const horizontalArr = board[clickedRow];
+    const verticalArr = board.map((row) => row[clickedCol]);
     const diagonalLeftArr = board.map((row, idx) => row[idx]);
     const diagonalRightArr = board.map((row, idx) => row[BOARD_SIZE - 1 - idx]);
 
     if (
-      isHorizontalMatch(board[row]) ||
+      isHorizontalMatch(horizontalArr) ||
       isVerticalMatch(verticalArr) ||
       isDiagonalMatch(diagonalLeftArr, diagonalRightArr)
     )
@@ -39,32 +53,74 @@ export const App = () => {
     return false;
   };
 
-  const play = (row: number, col: number) => {
-    setClicked({ row, col });
+  // 보드판 클릭 -> 이전 보드판 깊은 복사
+  const play = (clickedRow: number, clickedCol: number) => {
     setCurrentStep((step) => step + 1);
-    setBoard((board) => {
-      const newBoard = [...board];
 
-      newBoard[row][col] = PLAYERS[currentStep % NUM_PLAYERS];
+    const currentBoard = [...history[currentStep]];
 
-      return newBoard;
+    const newBoard = currentBoard.map((rows, row) => {
+      if (clickedRow !== row) return [...rows];
+
+      return rows.map((value, col) =>
+        clickedCol === col ? PLAYERS[(currentStep + 1) % NUM_PLAYERS] : value
+      );
     });
+
+    const newHistory = [...history.slice(0, currentStep + 1), newBoard];
+    setHistory(newHistory);
+    judgeWinner(newBoard, clickedRow, clickedCol);
   };
 
-  useEffect(() => {
-    if (!isWin()) return;
+  const moveTo = (index: number) => {
+    setCurrentStep(index);
+  };
 
-    setWinner(PLAYERS[(currentStep - 1) % NUM_PLAYERS]);
-  }, [board]);
+  const reverse = () => {
+    setIsAsc((prev) => !prev);
+  };
 
   return (
-    <>
+    <Container>
       <span>
         {winner
           ? `Winner: ${winner}`
           : `Next Player: ${PLAYERS[currentStep % NUM_PLAYERS]}`}
       </span>
-      <Board board={board} onPlay={play} winner={winner} />
-    </>
+      <Board board={history[currentStep]} onPlay={play} winner={winner} />
+
+      <HistoryButtonList>
+        <button onClick={reverse}>정렬하기</button>
+        {history.map((board, index) => (
+          <button
+            onClick={() => moveTo(isAsc ? index : history.length - index - 1)}
+          >
+            {`${isAsc ? index : history.length - index - 1}단계 로 이동`}
+          </button>
+        ))}
+      </HistoryButtonList>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  gap: 10px;
+`;
+
+const HistoryButtonList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  button {
+    background-color: white;
+    border: 1px solid #777;
+    border-radius: 6px;
+    padding: 7px;
+
+    :focus {
+      background-color: lightblue;
+    }
+  }
+`;
