@@ -1,9 +1,6 @@
-import { useState } from "react";
+const Square = ({handleClick,value}) => { 
+    
+  return <div className="square" onClick={handleClick}>{value}</div>;
+};
 
-export default function Square({ onSquareClick, value }) {
-  return (
-    <div className="square" onClick={onSquareClick}>
-      {value}
-    </div>
-  );
-}
+export default Square;
