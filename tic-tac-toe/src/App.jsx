@@ -41,7 +41,7 @@ function App() {
       [0, 3, 6],
       [1, 4, 7],
       [2, 5, 8],
-      [0, 4, 7],
+      [0, 4, 8],
       [2, 4, 6],
     ];
 
@@ -72,9 +72,6 @@ function App() {
   } else {
     status = "Next player: " + (player ? "X" : "O");
   }
-
-  
-
   console.log(scores);
 
   const handleRestart = () => {
@@ -83,14 +80,14 @@ function App() {
   };
 
   return (
-    <>
+    <div style={{padding: "50px"}}>
       <p className="player">{status}</p>
       <ScoreBoard scores={scores} player={player} />
       <Board squares={squares} onClick={handleClick} />
       <button className="restart" onClick={handleRestart}>
         Restart Game !
       </button>
-    </>
+    </div>
   );
 }
 
