@@ -2,8 +2,6 @@
 
 소소하지만 확실한 행복의 첫번째 습작 틱택토 프로젝트
 
-
-<br>
 <br>
 
 ## 구현목표
@@ -12,12 +10,9 @@ Tic-Tac-Toe게임을 **React를** 사용하여 구현합니다.
 
 <br>
 
-### 데모영상
+## 데모영상
+![ttt-demo](https://github.com/sohwakhaeng-fe/tic-tac-toe/assets/68095767/ae17bb11-9459-4a47-a105-73d04d74315d)
 
-<br>
-![ttt-demo](https://github.com/sohwakhaeng-fe/tic-tac-toe/assets/68095767/658a376b-b1c7-4798-a5be-a5fd79c37bd5)
-
-<br>
 <br>
 
 ## 공통 구현사항
@@ -31,7 +26,6 @@ Tic-Tac-Toe게임을 **React를** 사용하여 구현합니다.
 - [ ] 승리조건을 충족한다면 게임을 멈추고 승리자를 보여준다.
   - [ ] 승리조건은 가로, 세로, 대각선을 포함하여 3개가 연속적으로 존재한다면 승리조건에 만족한다. (ex: Next player ⇒ Winner player로 변경)
   - [ ] 승리자가 정해지면 더 이상 클릭 불가
-
 
 <br>
 
