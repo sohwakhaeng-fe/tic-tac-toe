@@ -18,17 +18,26 @@
 .restart {
   padding: 15px;
   width: 180px;
+  height: 50px;
   color: #fff;
-  background-color: royalblue;
+  background-color: lightskyblue;
   border: none;
   border-radius: 5px;
-  margin-top: 10px;
+  position: absolute;
+  font-weight: bold;
 
   &:hover {
     color: #000;
-    background-color: skyblue;
+    background-color: royalblue;
     cursor: pointer;
   }
 }
 
-
+.player {
+  background-color: lightskyblue;
+  padding: 15px;
+  width: 150px;
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+}

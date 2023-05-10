@@ -1,23 +1,39 @@
 import { useState } from "react";
 import "./App.css";
-import Square from "./Square";
+import Board from "./Board";
+import ScoreBoard from "./ScoreBoard";
 
 function App() {
   const [squares, setSquares] = useState(Array(9).fill(null));
   const [player, setPlayer] = useState(true);
   const [message, setMessage] = useState("");
+  const [scores, setScores] = useState({ xScore: 0, oScore: 0 });
 
   const handleClick = (index) => {
-    if (calculateWinner(squares) || squares[index]) {
+    // winner가 정해졌거나, 이미 클릭한 Square인 경우
+    if (checkWinner(squares) || squares[index]) {
       return;
     }
 
     squares[index] = player ? "X" : "O";
     setSquares(squares);
     setPlayer(!player);
+
+    const winner = checkWinner(squares);
+    if (winner) {
+      if (winner === "O") {
+        let { oScore } = scores;
+        oScore += 1;
+        setScores({ ...scores, oScore });
+      } else {
+        let { xScore } = scores;
+        xScore += 1;
+        setScores({ ...scores, xScore });
+      }
+    }
   };
 
-  const calculateWinner = (squares) => {
+  const checkWinner = (squares) => {
     const winningPatterns = [
       [0, 1, 2],
       [3, 4, 5],
@@ -43,7 +59,7 @@ function App() {
   };
 
   // winner 판별
-  const winner = calculateWinner(squares);
+  const winner = checkWinner(squares);
   // if (winner) {
   //   setMessage(`Winner: ${winner}`);
   // } else {
@@ -57,6 +73,10 @@ function App() {
     status = "Next player: " + (player ? "X" : "O");
   }
 
+  
+
+  console.log(scores);
+
   const handleRestart = () => {
     setPlayer(true);
     setSquares(Array(9).fill(null));
@@ -64,19 +84,12 @@ function App() {
 
   return (
     <>
-      <p>{status}</p>
-      <div className="board">
-        {squares.map((square, index) => (
-          <Square
-            key={index}
-            value={squares[index]}
-            onClick={() => handleClick(index)}
-          />
-        ))}
-        <button className="restart" onClick={handleRestart}>
-          Restart Game !
-        </button>
-      </div>
+      <p className="player">{status}</p>
+      <ScoreBoard scores={scores} player={player} />
+      <Board squares={squares} onClick={handleClick} />
+      <button className="restart" onClick={handleRestart}>
+        Restart Game !
+      </button>
     </>
   );
 }
